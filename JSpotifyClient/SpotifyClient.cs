@@ -8,7 +8,7 @@ namespace JSpotifyClient;
 
 public interface ISpotifyClient
 {
-    
+    public Task<Result<GetPlaylistsForUserIdResponse>> GetPlaylistsForUserId(string userId);
 }
 
 public class SpotifyClient : ISpotifyClient
@@ -50,5 +50,10 @@ public class SpotifyClient : ISpotifyClient
 
             return new Result<AuthenticationResponse>(responseData);
         }
+    }
+
+    public Task<Result<GetPlaylistsForUserIdResponse>> GetPlaylistsForUserId(string userId)
+    {
+        throw new NotImplementedException();
     }
 }
