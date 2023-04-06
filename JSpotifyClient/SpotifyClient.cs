@@ -13,18 +13,18 @@ public interface ISpotifyClient
 
 public class SpotifyClient : ISpotifyClient
 {
-    private string _clientId { get; set; }
-    private string _clientSecret { get; set; }
+    private string ClientId { get; set; }
+    private string ClientSecret { get; set; }
 
     public SpotifyClient(string clientId, string clientSecret)
     {
-        _clientId = clientId;
-        _clientSecret = clientSecret;
+        ClientId = clientId;
+        ClientSecret = clientSecret;
     }
     
     private async Task<Result<AuthenticationResponse>> GetBearerToken()
     {
-        var basicAuthHeaderString = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{_clientId}:{_clientSecret}"));
+        var basicAuthHeaderString = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{ClientId}:{ClientSecret}"));
         using (var httpClient = new HttpClient())
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", basicAuthHeaderString);
