@@ -4,6 +4,9 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <Title>JSpotifyClient</Title>
+        <Description>A Simple C# Client for Interracting with the Spotify API   </Description>
+        <Copyright>Jake Humphreys</Copyright>
     </PropertyGroup>
 
     <ItemGroup>

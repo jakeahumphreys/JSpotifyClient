@@ -79,8 +79,29 @@ public class SpotifyClient : ISpotifyClient
         }
     }
 
-    public Task<Result<GetPlaylistTracksResponse>> GetTracksForPlaylist(string playlistId)
+    public async Task<Result<GetPlaylistTracksResponse>> GetTracksForPlaylist(string playlistId)
     {
-        throw new NotImplementedException();
+        if (string.IsNullOrWhiteSpace(playlistId))
+            return new Result<GetPlaylistTracksResponse>().WithError("A Playlist ID was not provided");
+
+        var bearerTokenResult = GetBearerToken().Result;
+
+        if (bearerTokenResult.IsFailure)
+            return new Result<GetPlaylistTracksResponse>().WithError(bearerTokenResult.Errors.First().Message);
+
+        using (var httpClient = new HttpClient())
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearerTokenResult.Content.AccessToken);
+            
+            var response = await httpClient.GetAsync($"https://api.spotify.com/v1/playlists/{playlistId}/tracks");
+
+            var jsonString = await response.Content.ReadAsStringAsync();
+            var responseData = JsonSerializer.Deserialize<GetPlaylistTracksResponse>(jsonString);
+
+            if (responseData == null)
+                return new Result<GetPlaylistTracksResponse>().WithError("Unable to deserialize the response from the spotify API");
+
+            return new Result<GetPlaylistTracksResponse>(responseData);
+        }
     }
 }
