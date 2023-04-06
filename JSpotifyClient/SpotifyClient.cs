@@ -6,7 +6,12 @@ using JSpotifyClient.Types.Responses;
 
 namespace JSpotifyClient;
 
-public class SpotifyClient
+public interface ISpotifyClient
+{
+    
+}
+
+public class SpotifyClient : ISpotifyClient
 {
     private string _clientId { get; set; }
     private string _clientSecret { get; set; }
@@ -16,8 +21,8 @@ public class SpotifyClient
         _clientId = clientId;
         _clientSecret = clientSecret;
     }
-
-    public async Task<Result<AuthenticationResponse>> GetBearerToken()
+    
+    private async Task<Result<AuthenticationResponse>> GetBearerToken()
     {
         var basicAuthHeaderString = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{_clientId}:{_clientSecret}"));
         using (var httpClient = new HttpClient())
