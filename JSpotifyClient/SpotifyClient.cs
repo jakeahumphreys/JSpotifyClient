@@ -1,7 +1,6 @@
 ﻿using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using JCommon.Communication.Internal;
 using JSpotifyClient.Types.Responses;
 
@@ -10,6 +9,7 @@ namespace JSpotifyClient;
 public interface ISpotifyClient
 {
     public Task<Result<GetPlaylistsForUserIdResponse>> GetPlaylistsForUserId(string userId);
+    public Task<Result<GetPlaylistTracksResponse>> GetTracksForPlaylist(string playlistId);
 }
 
 public class SpotifyClient : ISpotifyClient
@@ -77,5 +77,10 @@ public class SpotifyClient : ISpotifyClient
 
             return new Result<GetPlaylistsForUserIdResponse>(responseData);
         }
+    }
+
+    public Task<Result<GetPlaylistTracksResponse>> GetTracksForPlaylist(string playlistId)
+    {
+        throw new NotImplementedException();
     }
 }
