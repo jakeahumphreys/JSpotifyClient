@@ -8,8 +8,12 @@ public sealed class Image
     public string Url { get; set; }
 
     [JsonPropertyName("height")]
-    public int Height { get; set; }
+    [JsonNumberHandling(JsonNumberHandling.WriteAsString)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public int? Height { get; set; }
 
     [JsonPropertyName("width")]
-    public int Width { get; set; }
+    [JsonNumberHandling(JsonNumberHandling.WriteAsString)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public int? Width { get; set; }
 }
