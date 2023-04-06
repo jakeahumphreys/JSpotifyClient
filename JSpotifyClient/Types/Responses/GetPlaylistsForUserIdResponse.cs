@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace JSpotifyClient.Types;
+namespace JSpotifyClient.Types.Responses;
 
-public sealed class Tracks
+public sealed class GetPlaylistsForUserIdResponse
 {
     [JsonPropertyName("href")]
     public string Href { get; set; }
@@ -23,5 +23,5 @@ public sealed class Tracks
     public int Total { get; set; }
 
     [JsonPropertyName("items")]
-    public List<AlbumItem> Items { get; set; }
+    public List<PlaylistItem> Items { get; set; }
 }

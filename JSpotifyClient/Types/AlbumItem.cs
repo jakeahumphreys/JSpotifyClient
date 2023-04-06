@@ -2,7 +2,7 @@
 
 namespace JSpotifyClient.Types;
 
-public sealed class Item
+public sealed class AlbumItem
 {
     [JsonPropertyName("artists")]
     public List<Artist> Artists { get; set; }
