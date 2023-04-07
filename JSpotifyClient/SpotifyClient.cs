@@ -58,7 +58,7 @@ public class SpotifyClient : ISpotifyClient
         if (string.IsNullOrWhiteSpace(userId))
             return new Result<GetPlaylistsForUserIdResponse>().WithError("A User ID was not provided.");
 
-        var bearerTokenResult = GetBearerToken().Result;
+        var bearerTokenResult = await GetBearerToken();
 
         if (bearerTokenResult.IsFailure)
             return new Result<GetPlaylistsForUserIdResponse>().WithError(bearerTokenResult.Errors.First().Message);
