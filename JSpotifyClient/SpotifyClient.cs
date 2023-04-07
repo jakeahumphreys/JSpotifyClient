@@ -65,17 +65,26 @@ public class SpotifyClient : ISpotifyClient
 
         using (var httpClient = new HttpClient())
         {
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearerTokenResult.Content.AccessToken);
+            try
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearerTokenResult.Content.AccessToken);
 
-            var response = await httpClient.GetAsync($"https://api.spotify.com/v1/users/{userId}/playlists");
+                var url = $"https://api.spotify.com/v1/users/{userId}/playlists";
+                var response = await httpClient.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+                var jsonString = await response.Content.ReadAsStringAsync();
+                var responseData = JsonSerializer.Deserialize<GetPlaylistsForUserIdResponse>(jsonString);
 
-            var jsonString = await response.Content.ReadAsStringAsync();
-            var responseData = JsonSerializer.Deserialize<GetPlaylistsForUserIdResponse>(jsonString);
+                if (responseData == null)
+                    return new Result<GetPlaylistsForUserIdResponse>().WithError("Unable to deserialize the response from the spotify API");
 
-            if (responseData == null)
-                return new Result<GetPlaylistsForUserIdResponse>().WithError("Unable to deserialize the response from the spotify API");
-
-            return new Result<GetPlaylistsForUserIdResponse>(responseData);
+                return new Result<GetPlaylistsForUserIdResponse>(responseData);
+            }
+            catch (Exception exception)
+            {
+                return new Result<GetPlaylistsForUserIdResponse>().WithError(exception.Message);
+            }
+           
         }
     }
 
